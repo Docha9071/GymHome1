@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao GymHome</title>
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilo do corpo */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #4CAF50; /* Fundo verde */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Estilo do cabeçalho */
+        header {
+            background-color: #333; /* Fundo cinza escuro */
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        header .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Estilo do menu lateral */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #333; /* Cor de fundo do menu */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px; /* Espaçamento para o conteúdo */
+            z-index: 1000; /* Z-index para sobrepor outros elementos */
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #555; /* Cor de fundo ao passar o mouse */
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Estilo do conteúdo principal */
+        .main-content {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #4CAF50; /* Fundo branco */
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .main-content h1 {
+            color: #fff;
+            margin-bottom: 20px;
+            background-color: #45a049;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Estilo dos botões de treino */
+        .exercise-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .exercise-buttons button {
+            width: 200px;
+            padding: 15px;
+            background-color: #45a049; /* Fundo verde */
+            color: #fff; /* Texto branco */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .exercise-buttons button:hover {
+            background-color: #73bd6c; /* Efeito hover */
+        }
+
+        /* Estilo do modal de confirmação */
+        .confirm-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff; /* Cor de fundo branco */
+            color: #45a049; /* Texto verde */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none; /* Inicialmente oculto */
+            z-index: 1000; /* Z-index para sobrepor */
+        }
+
+        .confirm-modal p {
+            margin-bottom: 10px;
+        }
+
+        .confirm-modal button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #45a049; /* Fundo verde */
+            color: #fff; /* Texto branco */
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .confirm-modal button:hover {
+            background-color: #73bd6c; /* Efeito hover */
+        }
+
+        /* Estilo específico para o botão Cancelar */
+        .confirm-modal button.cancel-btn {
+            background-color: #fff; /* Fundo branco */
+            color: #45a049; /* Texto verde */
+            border: 1px solid #45a049; /* Borda verde */
+        }
+
+        .confirm-modal button.cancel-btn:hover {
+            background-color: #f0f0f0; /* Fundo cinza claro ao passar o mouse */
+            color: #333; /* Texto preto */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+        <img src="C:\Users\TEMP\Downloads\1000460776-removebg-preview.png" alt="Logo GymHome" style="width: 250px; margin-bottom: 20px;">
+        <h1>Seja bem-vindo ao GymHome</h1>
+        <h2 style="color: #fff;">Selecione o que deseja fazer?</h2>
+        <div class="exercise-buttons">
+            <button onclick="escolherMetodo('Treinamentos')">Treinamentos</button>
+            <button onclick="escolherMetodo('Equipamentos')">Equipamentos</button>
+            <button onclick="exibirConfirmacao()">Sair</button>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação -->
+    <div class="confirm-modal" id="confirmModal">
+        <p>Você realmente deseja sair?</p>
+        <button onclick="confirmarSaida()">Sim</button>
+        <button class="cancel-btn" onclick="fecharModal()">Cancelar</button>
+    </div>
+
+    <script>
+        function escolherMetodo(metodo) {
+            if (metodo === 'Treinamentos') {
+                // Redireciona para a página de treinamentos
+                window.location.href = 'treinamentor1.html';
+            } else if (metodo === 'Equipamentos') {
+                // Adicione o redirecionamento para a página de Equipamentos se necessário
+                alert('Página de Equipamentos não implementada ainda.');
+            }
+        }
+
+        function exibirConfirmacao() {
+            var modal = document.getElementById('confirmModal');
+            modal.style.display = 'block';
+        }
+
+        function confirmarSaida() {
+            location.href = "login1.html";
+        }
+
+        function fecharModal() {
+            var modal = document.getElementById('confirmModal');
+            modal.style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

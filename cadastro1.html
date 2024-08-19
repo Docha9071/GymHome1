@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro e Completar Cadastro</title>
+    <!-- Link para o Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reset de estilo */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #4CAF50;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards, scaleIn 0.6s forwards;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            background: #f9f9f9;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4CAF50;
+            background: #fff;
+        }
+        .form-actions {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-actions button {
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .form-actions button:hover {
+            background-color: #45a049;
+        }
+        .form-actions button:active {
+            transform: scale(0.98);
+        }
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+        }
+        .links a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .links a:hover {
+            color: #45a049;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            transform: scale(0.9);
+            animation: scaleIn 0.5s forwards;
+        }
+        .modal-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .modal-content button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+        .logo {
+            width: 250px;
+            margin-bottom: 20px;
+            animation: logoBounce 1s infinite;
+        }
+        .message-small {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .error-message, .success-message {
+            display: none;
+            margin-bottom: 15px;
+        }
+        .error-message {
+            color: red;
+        }
+        .success-message {
+            background: #fff;
+            color: #4CAF50;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        #completar-cadastro {
+            display: none;
+        }
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes logoBounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        @keyframes logoExit {
+            from {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.5) translateY(-50px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <img src="C:\Users\TEMP\Downloads\1000460776-removebg-preview.png" alt="Logo GymHome" class="logo" id="logo">
+
+    <div id="cadastro-inicial" class="form-container">
+        <h2>Cadastro</h2>
+        <div id="password-error" class="error-message">
+            As senhas não coincidem. Digite novamente.
+        </div>
+        <form onsubmit="return proximoPasso()">
+            <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Nome" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Senha" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme a Senha" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit">Cadastrar</button>
+                <div class="links">
+                    <a href="#" id="forgot-password">Esqueci a Senha</a>
+                    <a href="login1.html">Login</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="completar-cadastro" class="form-container">
+        <h2>Olá, <span id="nomeCadastrado"></span></h2>
+        <p class="message-small">Complete seu cadastro adicionando mais informações:</p>
+        <form id="form-completo" onsubmit="return finalizarCadastro()">
+            <div class="form-group">
+                <select id="gender" name="gender" required>
+                    <option value="">Selecione o Sexo</option>
+                    <option value="female">Feminino</option>
+                    <option value="male">Masculino</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="number" id="age" name="age" placeholder="Idade" min="0" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="weight" name="weight" placeholder="Peso (kg)" step="0.01" min="0" required>
+            </div>
+            <div class="form-group">
+                <input type="number" id="height" name="height" placeholder="Altura (cm)" step="0.01" min="0" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit">Finalizar Cadastro</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" id="forgot-password-modal">
+        <div class="modal-content">
+            <h2>Redefinir Senha</h2>
+            <p>Insira seu email para redefinir:</p>
+            <input type="email" id="reset-email" placeholder="Email" required>
+            <button onclick="sendResetLink()">Enviar Link</button>
+        </div>
+    </div>
+
+    <script>
+        function proximoPasso() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password === confirmPassword) {
+                const name = document.getElementById('name').value;
+                localStorage.setItem('nomeCadastrado', name);
+
+                document.getElementById('cadastro-inicial').style.display = 'none';
+                document.getElementById('completar-cadastro').style.display = 'flex';
+
+                document.getElementById('nomeCadastrado').innerText = name;
+                return false;
+            } else {
+                document.getElementById('password-error').style.display = 'block';
+                return false;
+            }
+        }
+
+        function finalizarCadastro() {
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const weight = document.getElementById('weight').value;
+            const height = document.getElementById('height').value;
+
+            // Adicione lógica para enviar os dados, se necessário
+
+            // Iniciar animação da logo
+            const logo = document.getElementById('logo');
+            logo.style.animation = 'logoExit 0.5s forwards';
+
+            // Aguardar animação terminar e redirecionar
+            setTimeout(function() {
+                alert('Cadastro finalizado com sucesso!');
+                localStorage.removeItem('nomeCadastrado');
+                window.location.href = 'bemvindo1.html';
+            }, 500); // Ajuste o tempo conforme a duração da animação
+
+            return false; // Para não enviar o formulário
+        }
+
+        function isValidEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        function sendResetLink() {
+            const resetEmail = document.getElementById('reset-email').value;
+
+            if (isValidEmail(resetEmail)) {
+                alert('Link de redefinição de senha enviado para ' + resetEmail);
+                // Aqui você pode adicionar a lógica para enviar o link de redefinição
+            } else {
+                alert('Por favor, insira um email válido.');
+            }
+        }
+
+        // Exibir modal de redefinição de senha
+        document.getElementById('forgot-password').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('forgot-password-modal').style.display = 'flex';
+        });
+
+        // Fechar modal ao clicar fora do conteúdo
+        document.querySelector('.modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
